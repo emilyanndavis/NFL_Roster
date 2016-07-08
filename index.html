@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Go my favorite sports team go!</title>
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-    <script src="app.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Play:400,700" rel="stylesheet">
     <link rel="stylesheet" href="site.css">
+    <!--<link rel="stylesheet" href="manual-roster.css">-->
 </head>
 <body>
+    <!-- MANUALLY ADD PLAYERS WITH FORM --
     <div class="container">
         <div class="panel panel-primary">
             <div class="panel-heading text-center">
@@ -52,7 +52,42 @@
         </div>
 
     </div>
+    -->
 
+        <div class="container">
+        <div class="panel panel-primary">
+            <div class="panel-heading text-center">
+                <h1>My Sportsball Roster</h1>
+            </div>
+            <div class="panel-body">
+                <div class="player-roster text-center">
+                </div>
+
+               <div class="player-form panel panel-success">
+                   <div class="panel-heading text-center">
+                       <h3>Find and Add Players</h3>
+                   </div>
+                   <div class="panel-body">
+                        <form>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="query" id="query" placeholder="ex.: BAL, Baltimore, Orioles, or SS" />
+                            </div>
+                            <button type="submit" class="btn btn-info" id="findByTeam">Find Players by Team</button>
+                            <button type="submit" class="btn btn-info" id="findByPosition">Find Players by Position</button>
+                        </form>
+                        <div class="search-results">
+
+                        </div>
+                    <div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="player-service.js"></script>
+    <script src="controller.js"></script>
+    <!--<script src="manual-roster.js"></script>-->
     
 </body>
 </html>

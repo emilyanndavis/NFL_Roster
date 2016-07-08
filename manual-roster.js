@@ -1,3 +1,5 @@
+/* MANUALLY ADD PLAYERS WITH FORM */
+
 $(document).ready(function(){
 
     function Player(name, position, jersey){
@@ -56,6 +58,8 @@ $(document).ready(function(){
         }
     }
 
-
-
 });
+
+
+
+
