@@ -3,9 +3,9 @@
 $(document).ready(function(){
 
     var loading = true;
-    var playerApiUrl = "http://api.cbssports.com/fantasy/players/list?version=3.0&SPORT=baseball&response_format=json";
-    var teamApiUrl = "http://api.cbssports.com/fantasy/pro-teams?version=3.0&SPORT=baseball&response_format=json";
-    var positionApiUrl = "http://api.cbssports.com/fantasy/positions?version=3.0&SPORT=baseball&response_format=json";
+    var playerApiUrl = "https://api.cbssports.com/fantasy/players/list?version=3.0&SPORT=baseball&response_format=json";
+    var teamApiUrl = "https://api.cbssports.com/fantasy/pro-teams?version=3.0&SPORT=baseball&response_format=json";
+    var positionApiUrl = "https://api.cbssports.com/fantasy/positions?version=3.0&SPORT=baseball&response_format=json";
     var playerService = new PlayerService(playerApiUrl, teamApiUrl, positionApiUrl, ready);
 
 
@@ -75,10 +75,11 @@ $(document).ready(function(){
             display.append(resultsHeading);
 
             list.forEach(function(player){
+                var imgUrl = player.photo.replace('http', 'https');
                 var template = 
                 '<div class="player-card text-center">' + 
                     '<button type="button" class="btn btn-success btn-add" id="' + player.id + '">Add</button>' + 
-                    '<img src="' + player.photo + '" alt="' + player.fullname + '" />' +
+                    '<img src="' + imgUrl + '" alt="' + player.fullname + '" />' +
                     '<h3>' + player.fullname + '</h3>' + 
                     '<p>' + player.pro_team + '</p>' + 
                     '<p>#' + player.jersey + '</p>' + 
