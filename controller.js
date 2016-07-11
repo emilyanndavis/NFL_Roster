@@ -3,9 +3,9 @@
 $(document).ready(function(){
 
     var loading = true;
-    var playerApiUrl = "http://api.cbssports.com/fantasy/players/list?version=3.0&SPORT=baseball&response_format=json";
-    var teamApiUrl = "http://api.cbssports.com/fantasy/pro-teams?version=3.0&SPORT=baseball&response_format=json";
-    var positionApiUrl = "http://api.cbssports.com/fantasy/positions?version=3.0&SPORT=baseball&response_format=json";
+    var playerApiUrl = "https://api.cbssports.com/fantasy/players/list?version=3.0&SPORT=baseball&response_format=json";
+    var teamApiUrl = "https://api.cbssports.com/fantasy/pro-teams?version=3.0&SPORT=baseball&response_format=json";
+    var positionApiUrl = "https://api.cbssports.com/fantasy/positions?version=3.0&SPORT=baseball&response_format=json";
     var playerService = new PlayerService(playerApiUrl, teamApiUrl, positionApiUrl, ready);
 
 

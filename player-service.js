@@ -36,7 +36,7 @@ function PlayerService(endpointPlayerUri, endpointTeamUri, endpointPositionUri, 
             return secondCall(loadPlayerData);
         }
 
-        var url = "http://bcw-getter.herokuapp.com/?url=";
+        var url = "https://bcw-getter.herokuapp.com/?url=";
         var apiUrl = url + encodeURIComponent(endpointTeamUri);
 
         $.getJSON(apiUrl, function(data) {
@@ -55,7 +55,7 @@ function PlayerService(endpointPlayerUri, endpointTeamUri, endpointPositionUri, 
             return thirdCall();
         }
 
-        var url = "http://bcw-getter.herokuapp.com/?url=";
+        var url = "https://bcw-getter.herokuapp.com/?url=";
         var apiUrl = url + encodeURIComponent(endpointPositionUri);
 
         $.getJSON(apiUrl, function(data) {
@@ -74,7 +74,7 @@ function PlayerService(endpointPlayerUri, endpointTeamUri, endpointPositionUri, 
             return callback(self);
         }
 
-        var url = "http://bcw-getter.herokuapp.com/?url=";
+        var url = "https://bcw-getter.herokuapp.com/?url=";
         var apiUrl = url + encodeURIComponent(endpointPlayerUri);
 
         $.getJSON(apiUrl, function(data) {
