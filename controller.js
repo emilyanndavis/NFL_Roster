@@ -76,7 +76,6 @@ $(document).ready(function(){
 
             list.forEach(function(player){
                 var imgUrl = player.photo.replace('http', 'https');
-                console.log(imgUrl);
                 var template = 
                 '<div class="player-card text-center">' + 
                     '<button type="button" class="btn btn-success btn-add" id="' + player.id + '">Add</button>' + 
