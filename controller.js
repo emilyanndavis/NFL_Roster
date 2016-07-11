@@ -75,10 +75,12 @@ $(document).ready(function(){
             display.append(resultsHeading);
 
             list.forEach(function(player){
+                var imgUrl = player.photo.replace('http', 'https');
+                console.log(imgUrl);
                 var template = 
                 '<div class="player-card text-center">' + 
                     '<button type="button" class="btn btn-success btn-add" id="' + player.id + '">Add</button>' + 
-                    '<img src="' + player.photo + '" alt="' + player.fullname + '" />' +
+                    '<img src="' + imgUrl + '" alt="' + player.fullname + '" />' +
                     '<h3>' + player.fullname + '</h3>' + 
                     '<p>' + player.pro_team + '</p>' + 
                     '<p>#' + player.jersey + '</p>' + 
