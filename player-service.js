@@ -22,14 +22,52 @@ function PlayerService(endpointPlayerUri, endpointTeamUri, endpointPositionUri, 
             position = position.toLowerCase();
         }
        return playerData.filter(function(player){
-            console.log(player);
             if (player.position !== '') {
                 return (player.position_name.toLowerCase() === position || player.position_abbr.toLowerCase() === position);
             }
         });
     };
 
+    function loadTeamData(secondCall) {
+        // check for data in local storage, do not reload if it's already there
+        var localTeamData = localStorage.getItem('teamData');
+        if (localTeamData) {
+            teamData = JSON.parse(localTeamData);
+            return secondCall(loadPlayerData);
+        }
+
+        var url = "http://bcw-getter.herokuapp.com/?url=";
+        var apiUrl = url + encodeURIComponent(endpointTeamUri);
+
+        $.getJSON(apiUrl, function(data) {
+            teamData = data.body.pro_teams;
+            localStorage.setItem('teamData', JSON.stringify(teamData));
+            console.log('team data received');
+            secondCall(loadPlayerData);
+        });
+    }   
+
+    function loadPositionData(thirdCall) {
+        // check for data in local storage, do not reload if it's already there
+        var localPositionData = localStorage.getItem('positionData');
+        if (localPositionData) {
+            positionData = JSON.parse(localPositionData);
+            return thirdCall();
+        }
+
+        var url = "http://bcw-getter.herokuapp.com/?url=";
+        var apiUrl = url + encodeURIComponent(endpointPositionUri);
+
+        $.getJSON(apiUrl, function(data) {
+            positionData = data.body.positions;
+            localStorage.setItem('positionData', JSON.stringify(positionData));
+            console.log('position data received');
+            thirdCall();
+        });
+    }     
+
     function loadPlayerData() {
+        // check for data in local storage, do not reload if it's already there
         var localPlayerData = localStorage.getItem('playerData');
         if (localPlayerData) {
             playerData = JSON.parse(localPlayerData);
@@ -40,9 +78,11 @@ function PlayerService(endpointPlayerUri, endpointTeamUri, endpointPositionUri, 
         var apiUrl = url + encodeURIComponent(endpointPlayerUri);
 
         $.getJSON(apiUrl, function(data) {
+            // filter data to include only players with 'active' status
             playerData = data.body.players.filter(function(player){
                 return (player.pro_status === 'A');
             });
+            // add team data to each player object to allow for more search options
             playerData.forEach(function(player){
                 teamData.forEach(function(team){
                     if (team.abbr === player.pro_team) {
@@ -50,6 +90,7 @@ function PlayerService(endpointPlayerUri, endpointTeamUri, endpointPositionUri, 
                         player.team_name = team.nickname;
                     }
                 });
+            // add position data to each player object to allow for more search options
                 positionData.forEach(function(position){
                     if (position.abbr === player.position) {
                         player.position_abbr = position.abbr;
@@ -58,51 +99,11 @@ function PlayerService(endpointPlayerUri, endpointTeamUri, endpointPositionUri, 
                 });
             });
             localStorage.setItem('playerData', JSON.stringify(playerData));
+            console.log('player data set');
             callback(self);
         });
     }
-
-    function loadTeamData() {
-        // should be able to combine this with loadPlayerData() for a generic loadData() function ...
-        // with params for dataType and localStorage dataName
-        // but for now I'll write this one separately and hope they both work
-        var localTeamData = localStorage.getItem('teamData');
-        if (localTeamData) {
-            teamData = JSON.parse(localTeamData);
-            return callback(self);
-        }
-
-        var url = "http://bcw-getter.herokuapp.com/?url=";
-        var apiUrl = url + encodeURIComponent(endpointTeamUri);
-
-        $.getJSON(apiUrl, function(data) {
-            teamData = data.body.pro_teams;
-            localStorage.setItem('teamData', JSON.stringify(teamData));
-            callback(self);
-        });
-    }   
-
-    function loadPositionData() {
-        // should be able to combine this with loadPlayerData() for a generic loadData() function ...
-        // with params for dataType and localStorage dataName
-        // but for now I'll write this one separately and hope they all work
-        var localPositionData = localStorage.getItem('positionData');
-        if (localPositionData) {
-            positionData = JSON.parse(localPositionData);
-            return callback(self);
-        }
-
-        var url = "http://bcw-getter.herokuapp.com/?url=";
-        var apiUrl = url + encodeURIComponent(endpointPositionUri);
-
-        $.getJSON(apiUrl, function(data) {
-            positionData = data.body.positions;
-            localStorage.setItem('positionData', JSON.stringify(positionData));
-            callback(self);
-        });
-    }     
-
-    loadTeamData();
-    loadPositionData();
-    loadPlayerData();
+    
+    // load team data, then position data, then player data
+    loadTeamData(loadPositionData);
 }
